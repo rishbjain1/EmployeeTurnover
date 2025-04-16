@@ -1,93 +1,139 @@
-📊 Employee Turnover Analytics
+# 📊 Employee Turnover Analytics
 
-🏢 Project Overview
+## 🏢 Project Overview
 
-Portobello Tech, an innovative app company, is leveraging data to predict employee turnover – the number of workers who leave over time. As part of the HR analytics initiative, this project applies Machine Learning techniques to identify trends, cluster employee profiles, balance class representation, and ultimately predict the likelihood of turnover.
+**Portobello Tech**, an innovative app company, is leveraging data to predict **employee turnover** – the number of workers who leave over time. As part of the HR analytics initiative, this project applies Machine Learning techniques to identify trends, cluster employee profiles, balance class representation, and ultimately **predict the likelihood of turnover**.
 
-You are assigned as the ML Developer to assist the HR department in building a comprehensive predictive and analytical pipeline using past evaluation data, including:
+As the **ML Developer**, your responsibility is to support the HR Department with data-driven insights and modeling.
 
-Employee satisfaction
-Project engagement
-Evaluation scores
-Working hours
-Time at the company
-Promotions
-Salary
-📁 Dataset
+---
 
-Source: Kaggle: HR Analytics Dataset
-The dataset contains the following features:
+## 📁 Dataset
 
-Column Name	Description
-satisfaction_level	Satisfaction level of an employee
-last_evaluation	Last evaluation score (0 to 1)
-number_project	Number of projects an employee was involved in
-average_montly_hours	Average monthly office hours
-time_spend_company	Tenure in the company (years)
-Work_accident	0 = No accident, 1 = Had an accident
-left	0 = Stayed, 1 = Left
-promotion_last_5years	Promotion status in the last 5 years
-Department	Employee’s department
-salary	Salary level
-✅ Tasks & Implementation
+- **Source**: [Kaggle – HR Analytics Dataset](https://www.kaggle.com/liujiaqi/hr-comma-sepcsv)
 
-1. Data Quality Checks
-Handle missing values and ensure data completeness.
-2. Exploratory Data Analysis (EDA)
-Analyze feature impact on turnover.
-Visualizations:
-Correlation heatmap
-Distribution plots:
-satisfaction_level
-last_evaluation
-average_montly_hours
-Bar plot: Project count vs turnover
-3. Clustering
-Use K-Means Clustering on employees who left using:
-satisfaction_level
-last_evaluation
-left
-Create 3 clusters
-Interpret clusters to find behavioral patterns
-4. Class Imbalance Handling
-Use SMOTE (Synthetic Minority Over-sampling Technique)
-Steps:
-Convert categorical columns using get_dummies()
-Merge with numeric data
-Split into 80:20 train/test sets (random_state=123)
-Upsample minority class in training data using SMOTE
-5. Model Training with 5-Fold Cross-Validation
-Train and evaluate the following models:
+### 🔹 Column Descriptions
 
-Logistic Regression
-Random Forest Classifier
-Gradient Boosting Classifier
-For each:
+| Column Name              | Description                                                               |
+|--------------------------|---------------------------------------------------------------------------|
+| `satisfaction_level`     | Satisfaction level of an employee (0 to 1)                                |
+| `last_evaluation`        | Last evaluation score (0 to 1)                                            |
+| `number_project`         | Number of projects an employee was involved in                           |
+| `average_montly_hours`   | Average monthly office hours                                              |
+| `time_spend_company`     | Number of years the employee stayed with the company                      |
+| `Work_accident`          | 0 = No accident, 1 = Had an accident                                      |
+| `left`                   | 0 = Stayed with the company, 1 = Left                                     |
+| `promotion_last_5years`  | Whether the employee was promoted in the last 5 years (0/1)               |
+| `Department`             | Department the employee belongs to                                       |
+| `salary`                 | Employee’s salary level                                                   |
 
-Apply 5-fold CV
-Generate and analyze classification reports
-6. Model Selection & Evaluation
-Compare models using:
-ROC/AUC scores and curves
-Confusion matrices
-Determine whether to prioritize Precision or Recall based on business context
-7. Retention Strategy Recommendations
-Predict turnover probability on the test set using the best model
-Categorize employees into risk zones:
+---
 
-Zone	Score Range	Suggested Action
-🟢 Safe Zone	< 20%	Maintain current engagement strategies
-🟡 Low-Risk Zone	20% – 60%	Monitor & increase involvement
-🟠 Medium-Risk	60% – 90%	Initiate engagement and career discussions
-🔴 High-Risk	> 90%	Immediate HR intervention needed
-💡 Tools & Libraries
+## ✅ Project Steps
 
-Python
-Pandas, NumPy
-Matplotlib, Seaborn
-Scikit-learn
-Imbalanced-learn (SMOTE)
-📌 Conclusion
+### 1. Data Quality Checks
+- Check for and handle missing or inconsistent values in the dataset.
 
-This project helps HR identify and retain valuable employees, while reducing unwanted turnover through proactive, data-driven strategies.
+---
+
+### 2. Exploratory Data Analysis (EDA)
+
+#### 🔍 Identify Factors Influencing Turnover
+- Use statistical summaries and visualizations to discover insights.
+
+#### 📊 Visualizations:
+- **Heatmap** of the correlation matrix between all numerical features.
+- **Distribution Plots**:
+  - Employee Satisfaction (`satisfaction_level`)
+  - Last Evaluation (`last_evaluation`)
+  - Average Monthly Hours (`average_montly_hours`)
+- **Bar Plot**:
+  - Number of Projects vs Turnover (`number_project`, hue = `left`)
+  - Draw insights from the work pattern of employees who stayed vs. those who left.
+
+---
+
+### 3. Clustering Analysis
+
+#### 🎯 Objective:
+Cluster employees who left the company based on:
+- `satisfaction_level`
+- `last_evaluation`
+
+#### 🔹 Tasks:
+- Filter rows where `left = 1`
+- Apply **K-Means Clustering** with 3 clusters
+- Visualize and interpret the clusters:
+  - What defines each cluster?
+  - What insights can HR use?
+
+---
+
+### 4. Handle Class Imbalance using SMOTE
+
+#### 🔄 Preprocessing:
+- Convert categorical columns to numerical using `pd.get_dummies()`
+- Merge categorical and numeric data
+- Split the dataset:
+  - **80:20** stratified train-test split (`random_state=123`)
+- Apply **SMOTE** on the training set to balance the class distribution
+
+---
+
+### 5. Model Training with 5-Fold Cross-Validation
+
+Train and evaluate the following models using **5-Fold Cross-Validation**:
+
+| Model                    | Evaluation Method             |
+|--------------------------|-------------------------------|
+| Logistic Regression      | 5-fold CV, classification report |
+| Random Forest Classifier | 5-fold CV, classification report |
+| Gradient Boosting Classifier | 5-fold CV, classification report |
+
+---
+
+### 6. Model Evaluation & Selection
+
+#### 📈 Metrics:
+- **ROC/AUC**: Plot ROC curves for each model
+- **Confusion Matrix**: Evaluate predictions
+
+#### ❓ Metric Choice:
+- Decide whether to prioritize **Recall** (e.g. catching likely leavers) or **Precision** (e.g. avoiding false positives)
+- Justify choice based on HR use-case
+
+---
+
+### 7. Retention Strategy Recommendations
+
+#### 📊 Prediction:
+- Use the best model to predict **probability of turnover** for each employee in the test data
+
+#### 🧭 Risk Zones:
+
+| Zone             | Score Range       | Suggested Strategy                          |
+|------------------|-------------------|---------------------------------------------|
+| 🟢 Safe Zone     | Score < 20%       | Maintain current engagement strategies      |
+| 🟡 Low-Risk Zone | 20% < Score < 60% | Regular feedback and recognition            |
+| 🟠 Medium-Risk   | 60% < Score < 90% | Conduct one-on-one check-ins, provide growth opportunities |
+| 🔴 High-Risk     | Score > 90%       | Immediate HR intervention & retention plan  |
+
+---
+
+## 🛠 Tools & Libraries Used
+
+- Python
+- Pandas, NumPy
+- Matplotlib, Seaborn
+- Scikit-learn
+- imbalanced-learn (`SMOTE`)
+
+---
+
+## 📌 Conclusion
+
+This project delivers a full HR analytics solution to help **predict employee turnover**, understand **why employees leave**, and **recommend retention strategies** to improve long-term employee engagement.
+
+---
+
 
